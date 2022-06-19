@@ -1,0 +1,113 @@
+@baseUrl = http://localhost:3000
+@accessToken = Bearer {{signin.response.body.$.access_token}}
+
+###
+
+# @name signupRealtor
+POST {{baseUrl}}/auth/signup/REALTOR
+Content-Type: application/json
+
+{
+    "name": "User",
+    "phone": "(123) 123 1234",
+    "email": "user@gmail.com",
+    "password": 12345,
+    "productKey": "$2a$10$YtaR2DbbjB2x5NtBVLwLSOD43JvcU/ZlcybRIzO2iUVBA9MBIqoZe"
+}
+
+###
+
+# @name signin
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+    "email": "user@gmail.com",
+    "password": 12345
+}
+
+###
+
+# @name me
+GET {{baseUrl}}/auth/me
+Authorization: {{accessToken}}
+
+###
+
+# @name generateProductKeyForRealtor
+POST {{baseUrl}}/auth/key
+Content-Type: application/json
+
+{
+    "email": "user@gmail.com",
+    "userType": "REALTOR"
+}
+
+###
+
+
+# @name getHomes
+GET {{baseUrl}}/home
+    ?city=&minPrice&maxPrice&propertyType
+Authorization: {{accessToken}}
+
+###
+
+# @name getHomeById
+GET {{baseUrl}}/home/1
+
+###
+
+# @name addHome
+POST {{baseUrl}}/home
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+    "address": "Street Fighter",
+    "numberOfBedrooms": 4,
+    "numberOfBathrooms": 5,
+    "city": "NightCity",
+    "price": 7500000,
+    "landSize": 4000,
+    "propertyType": "CONDO",
+    "images": [{
+        "url": "img1"
+    }, {
+        "url": "img2"
+    }]
+}
+
+###
+
+# @name updateHome
+PUT {{baseUrl}}/home/1
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+    "address": "Mortal Kombat"
+}
+
+###
+
+# @name deleteHome
+DELETE {{baseUrl}}/home/1
+Authorization: {{accessToken}}
+
+###
+
+# @name createInquire
+POST {{baseUrl}}/home/1/inquire
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+    "message": "Hello..."
+}
+
+###
+
+# @name getInquiries
+GET {{baseUrl}}/home/1/messages
+Authorization: {{accessToken}}
